@@ -533,7 +533,8 @@
             <div class="card-meta">Independent Research &bull; PyTorch, scikit-learn (2026)</div>
 
             <p style="font-size: 0.94rem;">
-                Most approximate unlearning methods easily achieve success in output space: high accuracy on the retain set (<span class="math">D<sub>r</sub></span>) and near-0% accuracy on the forget set (<span class="math">D<sub>f</sub></span>). Scaling my earlier 4-layer CNN (forgetting digit 7 in MNIST) audit up to an 11.17M parameter ResNet-18 (forgetting class 3 (cat) in CIFAR-10), I designed a three-stage audit comparing <strong>Gradient Ascent</strong>, <strong>Bad Teacher Distillation</strong>, and <strong>Diagonal Fisher Information Pruning</strong> against a fully retrained model (oracle).
+                Most approximate unlearning methods easily achieve success in output space: high accuracy on the retain set (<span class="math">D<sub>r</sub></span>) and near-0% accuracy on the forget set (<span class="math">D<sub>f</sub></span>). Scaling my earlier 4-layer CNN (forgetting digit 7 in MNIST) audit up to an 11.17M parameter ResNet-18 (forgetting class 3 (cat) in CIFAR-10), I designed a three-stage audit comparing <strong>Gradient Ascent</strong>, <strong>Bad Teacher Distillation</strong>, and <strong>Diagonal Fisher Information Pruning</strong> against a fully retrained model (oracle). 
+                I deliberately did not use MIA here, as with a whole class as the forget set, the retrained oracle treats train and test cats identically, so an MIA collapses into "cat vs. not cat" rather than membership. 
             </p>
 
             <div class="narrative-block">
