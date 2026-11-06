@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divyansh Malik | AI Privacy & Machine Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fcfcfb;
+            --surface: #ffffff;
+            --text: #18181b;
+            --text-secondary: #52525b;
+            --text-muted: #71717a;
+            --border: #e4e4e7;
+            --accent: #1d4ed8;
+            --accent-soft: #eff6ff;
+            --highlight-bg: #f0fdf4;
+            --code-bg: #f4f4f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.68;
+            font-size: 15.5px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.75rem 1.5rem 5rem;
+        }
+
+        /* Top Identity & Tab Navigation Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2.25rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-sub {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.35rem;
+            background: var(--code-bg);
+            padding: 0.28rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.42rem 0.9rem;
+            font-size: 0.86rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            background: var(--surface);
+            color: var(--accent);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            font-weight: 600;
+        }
+
+        /* Tab Panels */
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.18s ease-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 2.15rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.45rem;
+            font-weight: 600;
+            margin-top: 2.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83em;
+            background: var(--code-bg);
+            padding: 0.12rem 0.35rem;
+            border-radius: 4px;
+        }
+
+        /* Academic Math Styling */
+        .math {
+            font-family: 'Newsreader', Georgia, serif;
+            font-style: italic;
+            white-space: nowrap;
+        }
+
+        /* Contact & Quick Links */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 1.25rem 0 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.85rem;
+            font-size: 0.84rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: #ffffff;
+            border-color: var(--text);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+        }
+
+        /* Toggleable Contact Dropdown */
+        .contact-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-dropdown summary {
+            list-style: none;
+            user-select: none;
+        }
+
+        .contact-dropdown summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .contact-dropdown[open] summary {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .contact-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4rem;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            min-width: 265px;
+            z-index: 30;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            padding: 0.45rem 0.65rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text);
+            transition: background 0.12s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--accent-soft);
+        }
+
+        .contact-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .contact-address {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.81rem;
+            color: var(--accent);
+        }
+
+        /* Status / "Now" Box */
+        .now-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .now-title {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Timeline / News */
+        .timeline {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline li {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.94rem;
+        }
+
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-top: 0.15rem;
+        }
+
+        /* Narrative Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.35rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-meta {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.9rem;
+        }
+
+        .tag-group {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.76rem;
+            font-weight: 500;
+            padding: 0.18rem 0.55rem;
+            border-radius: 4px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .tag:hover {
+            text-decoration: underline;
+        }
+
+        .tag-neutral {
+            background: var(--code-bg);
+            color: var(--text-secondary);
+        }
+
+        .narrative-block {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.94rem;
+        }
+
+        .narrative-block strong {
+            color: var(--text);
+        }
+
+        /* Benchmark Table */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.55rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+            text-transform: uppercase;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr.highlight-row { background-color: var(--highlight-bg); font-weight: 500; }
+        tr.oracle-row { background-color: #f8fafc; color: var(--text-secondary); }
+
+        ul.clean-list {
+            padding-left: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        ul.clean-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 680px) {
+            .top-bar { flex-direction: column; align-items: flex-start; }
+            .tabs { width: 100%; overflow-x: auto; }
+            .timeline li { grid-template-columns: 1fr; gap: 0.15rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- TOP BAR & MULTI-TAB NAVIGATION -->
+    <div class="top-bar">
+        <div class="brand">
+            <a href="#about" class="brand-name" onclick="switchTab('about')">Divyansh Malik</a>
+            <span class="brand-sub">B.Tech in AI &amp; Data Science &bull; IIT Jodhpur</span>
+        </div>
+        <nav class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="about" onclick="switchTab('about')">About</button>
+            <button class="tab-btn" data-tab="research" onclick="switchTab('research')">Research</button>
+            <button class="tab-btn" data-tab="projects" onclick="switchTab('projects')">Other Projects</button>
+            <button class="tab-btn" data-tab="cv" onclick="switchTab('cv')">CV &amp; Coursework</button>
+        </nav>
+    </div>
+
+    <!-- ==========================================
+         TAB 1: ABOUT
+    =========================================== -->
+    <div id="tab-about" class="tab-panel active">
+        <p>
+            I am a sophomore undergraduate in <strong>Artificial Intelligence and Data Science</strong> at the <strong>Indian Institute of Technology Jodhpur</strong>. My primary research interests lie in <strong>Machine Unlearning</strong>, <strong>AI Privacy</strong>, and <strong>Trustworthy Machine Learning</strong>.
+        </p>
+        <p>
+            I am particularly interested in the gap between apparent forgetting and true unlearning, i.e, why standard approximate unlearning algorithms that reduce forget-set accuracy to below 1% still leave behind latent space retention and remain vulnerable to few-shot relearning attacks. 
+
+            Alongside machine unlearning, I am currently working on feature-level knowledge distillation for compact vision models under Dr. Pratik Mazumder at IIT Jodhpur.
+        </p>
+
+        <div class="quick-links">
+            <a href="cv.pdf" target="_blank" class="btn btn-primary">Curriculum Vitae (PDF)</a>
+            <a href="https://github.com/dmalik233" target="_blank" class="btn">GitHub</a>
+
+            <!-- Toggleable Contact List -->
+            <details class="contact-dropdown" id="contact-dropdown">
+                <summary class="btn">Contact &#9662;</summary>
+                <div class="contact-menu">
+                    <a href="mailto:b25cm1076@iitj.ac.in" class="contact-item">
+                        <span class="contact-label">Institute Email (IIT Jodhpur)</span>
+                        <span class="contact-address">b25cm1076@iitj.ac.in</span>
+                    </a>
+                    <a href="mailto:divyanshmalik233@gmail.com" class="contact-item">
+                        <span class="contact-label">Personal Email</span>
+                        <span class="contact-address">divyanshmalik233@gmail.com</span>
+                    </a>
+                </div>
+            </details>
+        </div>
+
+        <!-- CURRENT FOCUS / NOW BOX -->
+        <div class="now-box">
+            <div class="now-title">Current Focus (Autumn 2026)</div>
+            <ul class="clean-list" style="margin-bottom: 0; font-size: 0.93rem;">
+                <li><strong>Representation Auditing in Unlearning:</strong> Investigating normalization artifacts ("the BatchNorm illusion") and synaptic resetting in residual networks on CIFAR-10.</li>
+                <li><strong>Undergraduate Research @ IITJ:</strong> Distilling intermediate representations from EfficientNet-B0 into a 238K-parameter attention CNN with Dr. Pratik Mazumder.</li>
+                <li><strong>Theoretical Self-Study:</strong> Following Prof. Gautam Kamath's course on Differential Privacy to connect empirical unlearning audits with formal <span class="math">(&epsilon;, &delta;)</span>-guarantees and Membership Inference Attacks (MIAs).</li>
+            </ul>
+        </div>
+
+        <h2>Recent Updates &amp; Milestones</h2>
+        <ul class="timeline">
+            <li>
+                <span class="timeline-date">Nov 2026</span>
+                <span>Completed CIFAR-10 - ResNet-18 unlearning audit comparing output JS divergence, frozen 512-d linear probes, and 300-step relearning attacks across Gradient Ascent, Bad Teacher, and Fisher Pruning.</span>
+            </li>
+            <li>
+                <span class="timeline-date">Aug 2026</span>
+                <span>Awarded academic branch change to <strong>B.Tech in Artificial Intelligence &amp; Data Science</strong> at IIT Jodhpur after finishing my first year with a 9.15 CGPA.</span>
+            </li>
+            <li>
+                <span class="timeline-date">Jul 2026</span>
+                <span>Started undergraduate computer vision research on feature-level knowledge distillation under Prof. Pratik Mazumder.</span>
+            </li>
+            <li>
+                <span class="timeline-date">May 2026</span>
+                <span>Explored medical-imaging machine unlearning (<em>ForgetMI</em> &amp; <em>SCRUB</em>) during the Summer of RAID program at IIT Jodhpur.</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ==========================================
+         TAB 2: RESEARCH (DEEP DIVES & ORIGIN STORY)
+    =========================================== -->
+    <div id="tab-research" class="tab-panel">
+        <h2>Empirical Unlearning &amp; Vision Research</h2>
+
+        <!-- Research 1: CIFAR-10 & MNIST Unlearning -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Auditing Class Unlearning in ResNet-18 Beyond Output Accuracy</h3>
+                <div class="tag-group">
+                    <a href="https://github.com/dmalik233/cifar10-resnet18-unlearning" target="_blank" class="tag">[CIFAR-10 Repo]</a>
+                    <a href="https://github.com/dmalik233/MNIST-Unlearning" target="_blank" class="tag">[MNIST Repo]</a>
+                </div>
+            </div>
+            <div class="card-meta">Independent Research &bull; PyTorch, scikit-learn (2026)</div>
+
+            <p style="font-size: 0.94rem;">
+                Most approximate unlearning methods easily achieve success in output space: high accuracy on the retain set (<span class="math">D<sub>r</sub></span>) and near-0% accuracy on the forget set (<span class="math">D<sub>f</sub></span>). Scaling my earlier 4-layer CNN (forgetting digit 7 in MNIST) audit up to an 11.17M parameter ResNet-18 (forgetting class 3 (cat) in CIFAR-10), I designed a three-stage audit comparing <strong>Gradient Ascent</strong>, <strong>Bad Teacher Distillation</strong>, and <strong>Diagonal Fisher Information Pruning</strong> against a fully retrained model (oracle).
+            </p>
+
+            <div class="narrative-block">
+                <p><strong>1. Controlling for the "BatchNorm Illusion" (Kalani et al., 2026):</strong> In residual networks, <code>BatchNorm2d</code> layers retain running mean/variance statistics from original training or get skewed by forget-heavy batches. Before evaluating any checkpoint, I implemented exact retain-set recalibration (resetting stats and computing cumulative moving averages with <code>momentum=None</code> over <span class="math">D<sub>r</sub></span>). Recalibration alone dropped Bad Teacher's train forget accuracy from <strong>8.20% &rarr; 2.02%</strong> without changing a single weight.</p>
+
+                <p><strong>2. Why Output Suppression Increases Latent Separability:</strong> Training a balanced logistic regression probe on frozen 512-dimensional penultimate features showed that <em>Bad Teacher</em> actually makes forgotten <code>cat</code> embeddings more linearly separable than the original model (93.96% vs. 92.52% balanced accuracy). This is most likely because Bad Teacher forces uniform logits (&sim;0.10) on every forget sample while keeping retain predictions peaked. So, the forgotten images cluster into a distinct region of feature space, allowing a 300-step fine-tuning attack to recover 75% accuracy in just 120&ndash;150 steps (<code>ReAUC: 0.78&ndash;0.85</code>).</p>
+
+                <p style="margin-bottom: 0.5rem;"><strong>3. Hard Masking vs. Synaptic Reset in Fisher Pruning:</strong> Using the diagonal Fisher ratio <span class="math">S<sub>i</sub> = F<sub>ii</sub>(D<sub>f</sub>) / F<sub>ii</sub>(D<sub>r</sub>)</span>, I zeroed the top 50% (5.25M) forget-specialized weights in <code>layer3</code>, <code>layer4</code>, and residual downsample shortcuts while leaving early layers intact. Comparing locked masks (Hard Pruning) against unlocked healing (Synaptic Reset) showed that allowing retain gradients to overwrite zeroed weights during 2 healing epochs matched the oracle's latent probe (<strong>90.10% vs. 90.11%</strong>), restored natural semantic confusion (56.6% of cats predicted as dog, vs the oracle's 56.2%), and reduced relearning ReAUC from 0.1909 down to 0.0580.</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method (CIFAR-10)</th>
+                            <th>Retain Acc (&uarr;)</th>
+                            <th>Forget Acc (&darr;)</th>
+                            <th>Forget JS Div (&darr;)</th>
+                            <th>512-d Probe (&rarr; 90.11%)</th>
+                            <th>Steps to 75% (&uarr;)</th>
+                            <th>ReAUC (&darr;)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Original Model</td>
+                            <td>94.04%</td>
+                            <td>83.90%</td>
+                            <td>0.5667</td>
+                            <td>92.52% (0.987 AUC)</td>
+                            <td>0</td>
+                            <td>1.0000</td>
+                        </tr>
+                        <tr class="oracle-row">
+                            <td><strong>Retrained Oracle</strong></td>
+                            <td><strong>94.68%</strong></td>
+                            <td><strong>0.00%</strong></td>
+                            <td><strong>0.0000</strong></td>
+                            <td><strong>90.11% (0.962 AUC)</strong></td>
+                            <td><strong>&gt;300</strong></td>
+                            <td><strong>0.0000</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Gradient Ascent</td>
+                            <td>93.67%</td>
+                            <td>0.80%</td>
+                            <td>0.1903</td>
+                            <td>91.11% (0.980 AUC)</td>
+                            <td>120</td>
+                            <td>0.8544</td>
+                        </tr>
+                        <tr>
+                            <td>Bad Teacher</td>
+                            <td>93.44%</td>
+                            <td>0.90%</td>
+                            <td>0.3832</td>
+                            <td>93.96% (0.987 AUC)</td>
+                            <td>150</td>
+                            <td>0.7759</td>
+                        </tr>
+                        <tr>
+                            <td>Fisher Prune (Hard)</td>
+                            <td>91.18%</td>
+                            <td>0.00%</td>
+                            <td>0.1717</td>
+                            <td>89.82% (0.962 AUC)</td>
+                            <td>&gt;300</td>
+                            <td>0.1909</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>Fisher Prune (Reset)</td>
+                            <td>92.22%</td>
+                            <td>0.00%</td>
+                            <td>0.1506</td>
+                            <td>90.10% (0.967 AUC)</td>
+                            <td>&gt;300</td>
+                            <td>0.0580</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Research 2: Feature Distillation -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Lightweight Potato Leaf Disease Classification via Feature Distillation</h3>
+                <span class="tag tag-neutral">July 2026 &ndash; Present</span>
+            </div>
+            <div class="card-meta">Supervisor: Dr. Pratik Mazumder (IIT Jodhpur) &bull; PyTorch, torchvision, scikit-learn</div>
+            <p style="font-size: 0.94rem;">
+                Deploying plant disease classifiers on edge devices in the field requires extreme parameter efficiency without sacrificing robustness to uncontrolled lighting and background noise. Working on a 3,076-image uncontrolled-condition dataset across 7 disease classes, I designed a custom 238K-parameter CNN combining depthwise-separable convolutions with CBAM (Convolutional Block Attention Module) channel-spatial attention.
+            </p>
+            <div class="narrative-block">
+                <p style="margin-bottom: 0;"><strong>Representation Alignment:</strong> Rather than relying solely on output logit distillation (KL divergence), we aligned intermediate spatial feature maps from a fine-tuned EfficientNet-B0 teacher (4.02M parameters) using a learned 1&times;1 convolutional projection head and cosine-similarity loss. Because the projection head is discarded after training, inference overhead remains strictly 238K parameters, <strong>79.55% hold-out accuracy (0.791 macro F1)</strong> and retaining ~90% of the teacher's accuracy (88.8%) with 16.9&times; fewer parameters.</p>
+            </div>
+        </div>
+
+        <!-- Research 3: Summer of RAID (Origin Story) -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Selective Unlearning System: Hospital-Level Forgetting Exploration</h3>
+                <span class="tag tag-neutral">Summer of RAID &bull; 2026</span>
+            </div>
+            <div class="card-meta">RAID (AI &amp; Data Science Society, IIT Jodhpur) &bull; Literature &amp; Preliminary Study</div>
+            <p style="font-size: 0.94rem; margin-bottom: 0;">
+                <!-- Feel free to tweak any details here -->
+                This summer project served as my introduction to machine unlearning. Our initial goal was to implement institution-level (hospital-level) unlearning on chest X-ray classifiers based on the <strong>ForgetMI</strong> paper, simulating a scenario where a contributing hospital revokes data access. While it proved challenging to simulate a multi hospital split using openly available datasets, tracing the citation network outward from <em>ForgetMI</em> led me to <strong>SCRUB</strong> (<em>Kurmanji et al.</em>), <strong>Bad Teacher Distillation</strong> (<em>Chundawat et al.</em>), and <strong>Selective Synaptic Dampening</strong> (<em>Foster et al.</em>). Realizing how easily surface-level unlearning methods could produce misleading accuracy drops directly inspired me to start working on my MNIST and CIFAR-10 audits.
+            </p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         TAB 3: PROJECTS & ENGINEERING
+    =========================================== -->
+    <div id="tab-projects" class="tab-panel">
+        <h2>Software Engineering &amp; Applied ML Projects</h2>
+
+        
+        <!-- Project 2: RAID WARP -->
+        <div class="card">
+            <div class="card-header">
+                <h3>RAID WARP: Augmented User Response Assistant</h3>
+                <span class="tag tag-neutral">Team Project &bull; RAID IITJ</span>
+            </div>
+            <div class="card-meta">RAID (AI &amp; Data Science Society, IIT Jodhpur) &bull; Python, HuggingFace Transformers, RoBERTa</div>
+            <p style="font-size: 0.94rem; margin-bottom: 0;">
+                <!-- Feel free to tweak any details here -->
+                My introduction to the field of ML, AI and NLP, I worked on this project under the RAID club at IIT Jodhpur in a team of 5, guided by 2 mentors. In this project, I was responsible for building the sentiment inference module, taking raw user conversation transcripts, running inference through Cardiff NLP's pretrained <code>twitter-roberta-base-sentiment</code> transformer, and mapping the resulting 3-class softmax distribution (<em>negative, neutral, positive</em>) onto a continuous <strong>&minus;1.0 to +1.0 sentiment score</strong> to guide downstream response generation.
+            </p>
+        </div>
+
+        <!-- Project 1: Nexus-Connect -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Nexus-Connect: Real-Time Messaging &amp; Call Platform (Backend)</h3>
+                <div class="tag-group">
+                    <a href="https://nexus-connect-mgoo.onrender.com/" target="_blank" class="tag">[Live Demo]</a>
+                    <a href="https://github.com/devlup-labs/Nexus-Connect" target="_blank" class="tag">[GitHub Repo]</a>
+                </div>
+            </div>
+            <div class="card-meta">DevlUp Labs (Open Source Society, IIT Jodhpur) &bull; Node.js, Express.js, MongoDB, JWT, Arcjet, Cloudinary</div>
+            <p style="font-size: 0.94rem;">
+                Architected and hardened the backend REST API and database layer for a full-stack communication platform supporting media messaging, threaded replies, and voice/video call logging.
+            </p>
+            <ul class="clean-list" style="font-size: 0.93rem;">
+                <li><strong>Authentication &amp; Media Pipeline:</strong> Built stateless session management using <code>HttpOnly</code> cookie-backed <strong>JWTs</strong> and <code>bcryptjs</code> password hashing, paired with <strong>Cloudinary</strong> pipelines for asynchronous image/attachment uploads.</li>
+                <li><strong>Granular State &amp; Deletion Modeling:</strong> Designed MongoDB schemas for call state tracking and dual-mode message deletion&mdash;cleanly separating per-user local soft deletes (<code>deletedFor</code> arrays) from sender-authorized global hard deletes.</li>
+                <li><strong>Edge Rate-Limiting &amp; Bot Mitigation:</strong> Integrated <strong>Arcjet</strong> security middleware to protect authentication and messaging routes via sliding-window rate limits (100 req/min) and automated spoofed-bot blocking while whitelisting legitimate crawlers.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         TAB 4: CV & COURSEWORK
+    =========================================== -->
+    <div id="tab-cv" class="tab-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; border: none; padding: 0;">Curriculum Vitae &amp; Academic Background</h2>
+            <a href="cv.pdf" target="_blank" class="btn btn-primary">Download Full CV (PDF)</a>
+        </div>
+
+        <div class="card">
+            <h3>Education</h3>
+            <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <div>
+                    <strong>Indian Institute of Technology Jodhpur, India</strong><br>
+                    <span style="color: var(--text-secondary); font-size: 0.92rem;">B.Tech in Artificial Intelligence and Data Science</span>
+                </div>
+                <div style="text-align: right; font-size: 0.92rem;">
+                    <strong>CGPA: 9.15 / 10.0</strong><br>
+                    <span style="color: var(--text-secondary);">2025 &ndash; 2029 (Expected)</span>
+                </div>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border); margin: 0.85rem 0;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <div>
+                    <strong>Ramjas School, Pusa Road, New Delhi</strong><br>
+                    <span style="color: var(--text-secondary); font-size: 0.92rem;">Central Board of Secondary Education (CBSE)</span>
+                </div>
+                <div style="text-align: right; font-size: 0.92rem;">
+                    <strong>Class XII: 93.0% &bull; Class X: 97.2%</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Relevant Coursework</h3>
+            <ul class="clean-list" style="margin-top: 0.65rem; font-size: 0.93rem;">
+                <li><strong>Mathematics &amp; Machine Learning:</strong> Linear Algebra &amp; Differential Equations, Multivariable Calculus &amp; Real Analysis, Introduction to Machine Learning*, Probability, Statistics &amp; Stochastic Processes*, Discrete Mathematics*</li>
+                <li><strong>Computer Science &amp; Systems:</strong> Data Structures &amp; Algorithms*, Principles of Computer Systems*, Introduction to Computer Science</li>
+            </ul>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">*Autumn 2026 semester (completion: November 2026)</div>
+        </div>
+
+        <div class="card">
+            <h3>Technical Stack</h3>
+            <ul class="clean-list" style="margin-top: 0.65rem; font-size: 0.93rem;">
+                <li><strong>Languages:</strong> Python, C++, C, JavaScript, LaTeX</li>
+                <li><strong>Machine Learning &amp; Vision:</strong> PyTorch, torchvision, HuggingFace Transformers, scikit-learn, NumPy, Pandas, Matplotlib</li>
+                <li><strong>Systems &amp; Web:</strong> Linux/Ubuntu, Git, Node.js, Express.js, React.js, MongoDB, Postman</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Scholastic Achievements</h3>
+            <ul class="clean-list" style="margin-top: 0.65rem; font-size: 0.93rem;">
+                <li><strong>JEE Advanced &amp; JEE Main 2025:</strong> Ranked in the <strong>top 1%</strong> among over 1.4 million candidates nationwide.</li>
+                <li><strong>Indian Olympiad Qualifier in Mathematics (IOQM 2023&ndash;24):</strong> Awarded Certificate of Merit by the Mathematics Teachers' Association (India) for clearing the national qualification threshold (Stage 1 of IMO).</li>
+                <li><strong>State Science Talent Scholarship (MVPP / JSTSE):</strong> Awarded by the Directorate of Education, Govt. of NCT of Delhi, for ranking in the state-level Junior Science Talent Search Examination.</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        
+    </footer>
+</div>
+
+<script>
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const targetPanel = document.getElementById('tab-' + tabName);
+        const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+        if (targetPanel && targetBtn) {
+            targetPanel.classList.add('active');
+            targetBtn.classList.add('active');
+            history.replaceState(null, null, '#' + tabName);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // Close the Contact dropdown when clicking anywhere outside it
+    document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('contact-dropdown');
+        if (dropdown && dropdown.hasAttribute('open') && !dropdown.contains(e.target)) {
+            dropdown.removeAttribute('open');
+        }
+    });
+
+    // Load correct tab if someone visits a direct hash URL like yoursite.github.io/#research
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.replace('#', '');
+        if (['about', 'research', 'projects', 'cv'].includes(hash)) {
+            switchTab(hash);
+        }
+    });
+</script>
+
+</body>
+</html>
