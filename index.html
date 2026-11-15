@@ -538,11 +538,11 @@
             </p>
 
             <div class="narrative-block">
-                <p><strong>1. Controlling for the "BatchNorm Illusion" (Kalani et al., 2026):</strong> In residual networks, <code>BatchNorm2d</code> layers retain running mean/variance statistics from original training or get skewed by forget-heavy batches. Before evaluating any checkpoint, I implemented exact retain-set recalibration (resetting stats and computing cumulative moving averages with <code>momentum=None</code> over <span class="math">D<sub>r</sub></span>). Recalibration alone dropped Bad Teacher's train forget accuracy from <strong>8.20% &rarr; 2.02%</strong> without changing a single weight.</p>
+                <p><strong>1. Controlling for the "BatchNorm Illusion" (Kalani et al., 2026):</strong> In residual networks, <code>BatchNorm2d</code> layers keep running mean/variance statistics from original training on all ten classes, or get skewed by forget-heavy batches. I implemented exact retain-set recalibration (resetting stats and computing cumulative moving averages with <code>momentum=None</code> over <span class="math">D<sub>r</sub></span>). With BN in eval mode throughout, early-stopped Gradient Ascent (35 batches) reached 0.4% train forget accuracy, but recalibrating over 5,000 retain images with weights frozen raised it to <strong>95.3%</strong>, without changing a single weight. I then built recalibration into Bad Teacher and Fisher pruning; for Bad Teacher it alone lowered train forget accuracy from 8.20% to 2.02%.</p>
 
-                <p><strong>2. Why Output Suppression Increases Latent Separability:</strong> Training a balanced logistic regression probe on frozen 512-dimensional penultimate features showed that <em>Bad Teacher</em> actually makes forgotten <code>cat</code> embeddings more linearly separable than the original model (93.96% vs. 92.52% balanced accuracy). This is most likely because Bad Teacher forces uniform logits (&sim;0.10) on every forget sample while keeping retain predictions peaked. So, the forgotten images cluster into a distinct region of feature space, allowing a 300-step fine-tuning attack to recover 75% accuracy in just 120&ndash;150 steps (<code>ReAUC: 0.78&ndash;0.85</code>).</p>
+                <p><strong>2. Why Output Suppression Increases Latent Separability:</strong> Training a balanced logistic regression probe on frozen 512-dimensional penultimate features showed that Bad Teacher actually makes forgotten <code>cat</code> embeddings more linearly separable than the original model (93.96% vs. 92.52% balanced accuracy). This is most likely because Bad Teacher forces uniform logits (&sim;0.10) on every forget sample while keeping retain predictions peaked. So, the forgotten images cluster into a distinct region of feature space, allowing a 300-step fine-tuning attack to recover 75% accuracy in just 120&ndash;150 steps (<code>ReAUC: 0.78&ndash;0.85</code>).</p>
 
-                <p style="margin-bottom: 0.5rem;"><strong>3. Hard Masking vs. Synaptic Reset in Fisher Pruning:</strong> Using the diagonal Fisher ratio <span class="math">S<sub>i</sub> = F<sub>ii</sub>(D<sub>f</sub>) / F<sub>ii</sub>(D<sub>r</sub>)</span>, I zeroed the top 50% (5.25M) forget-specialized weights in <code>layer3</code>, <code>layer4</code>, and residual downsample shortcuts while leaving early layers intact. Comparing locked masks (Hard Pruning) against unlocked healing (Synaptic Reset) showed that allowing retain gradients to overwrite zeroed weights during 2 healing epochs matched the oracle's latent probe (<strong>90.10% vs. 90.11%</strong>), restored natural semantic confusion (56.6% of cats predicted as dog, vs the oracle's 56.2%), and reduced relearning ReAUC from 0.1909 down to 0.0580.</p>
+                <p style="margin-bottom: 0.5rem;"><strong>3. Hard Masking vs. Synaptic Reset in Fisher Pruning:</strong> Using the diagonal Fisher ratio <span class="math">S<sub>i</sub> = F<sub>ii</sub>(D<sub>f</sub>) / F<sub>ii</sub>(D<sub>r</sub>)</span>, I zeroed the top 50% (5.25M) forget-selected conv weights in <code>layer3</code>, <code>layer4</code>, and residual downsample shortcuts while leaving early layers intact. Comparing locked masks (Hard Pruning) against unlocked healing (Synaptic Reset) showed that allowing retain gradients to overwrite zeroed weights during 2 healing epochs matched the oracle's latent probe (<strong>90.10% vs. 90.11%</strong>), restored natural semantic confusion (56.6% of cats predicted as dog, vs the oracle's 56.2%), and reduced relearning ReAUC from 0.1909 down to 0.0580. Random pruning of the same layers, with identical healing, left the probe at 92.8&ndash;93.0% and ReAUC at &sim;0.40, so random selection did not reproduce the effect.</p>
             </div>
 
             <div class="table-wrapper">
@@ -612,6 +612,24 @@
                             <td>90.10% (0.967 AUC)</td>
                             <td>&gt;300</td>
                             <td>0.0580</td>
+                        </tr>
+                        <tr>
+                            <td>Random Prune (Hard)</td>
+                            <td>93.78%</td>
+                            <td>0.60%</td>
+                            <td>0.1701</td>
+                            <td>92.84% (0.984 AUC)</td>
+                            <td>&gt;300</td>
+                            <td>0.4111</td>
+                        </tr>
+                        <tr>
+                            <td>Random Prune (Reset)</td>
+                            <td>93.74%</td>
+                            <td>0.40%</td>
+                            <td>0.1579</td>
+                            <td>92.99% (0.984 AUC)</td>
+                            <td>&gt;300</td>
+                            <td>0.4013</td>
                         </tr>
                     </tbody>
                 </table>
